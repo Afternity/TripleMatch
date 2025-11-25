@@ -1,0 +1,53 @@
+﻿<Window x:Class="TripleMatch.WPF.Views.Windows.AuthWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TripleMatch.WPF.Views.Windows"
+        mc:Ignorable="d"
+        Title="Авторизация" Height="250" Width="470">
+
+    <Grid Background="#7A8BDB">
+
+        <Border Style="{StaticResource MainBorder}" VerticalAlignment="Center" 
+                HorizontalAlignment="Center">
+
+            <Grid Style="{StaticResource GridInBorder}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row="1" 
+                          Grid.Column="0"
+                          Text="Логин:"/>
+
+                <TextBox Text="{Binding AuthDto.Email}"
+                    Grid.Row="1" Grid.Column="1"/>
+
+                <TextBlock Text="Пароль:"
+                    Grid.Row="2" Grid.Column="0"/>
+
+                <TextBox Text="{Binding AuthDto.Password}"
+                    Grid.Row="2" Grid.Column="1"/>
+
+                <Button Command="{Binding AuthCommand}"
+                    Content="Войти"
+                    Grid.Row="4" Grid.ColumnSpan="2"/>
+
+                <TextBlock Text="{Binding MessageVm.Message}"
+                    Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                    TextWrapping="Wrap"/>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

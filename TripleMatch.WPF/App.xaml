@@ -1,0 +1,55 @@
+﻿<Application x:Class="TripleMatch.WPF.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:TripleMatch.WPF"
+             >
+    <Application.Resources>
+
+        <Style TargetType="Button">
+            <Setter Property="Background" Value="#6770A1"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Width" Value="150"/>
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+
+        <Style TargetType="TextBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Width" Value="300"/>
+        </Style>
+
+        <Style TargetType="ComboBox">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Width" Value="300"/>
+            <Setter Property="Height" Value="30"/>
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="Margin" Value="5"/>
+        </Style>
+
+        <Style TargetType="Border" x:Key="MainBorder">
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Padding" Value="20"/>
+            <Setter Property="Background" Value="#98B1FF"/>
+            <Setter Property="CornerRadius" Value="10"/>
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect Color="White" BlurRadius="20" ShadowDepth="0" Opacity="0.7"/>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style TargetType="Grid">
+            <Setter Property="Background" Value="#7A8BDB"/>
+        </Style>
+
+        <Style TargetType="Grid" x:Key="GridInBorder">
+            <Setter Property="Background" Value="Transparent"/>
+        </Style>
+
+        <Style TargetType="Window">
+            <Setter Property="Background" Value="#7A8BDB"/>
+        </Style>
+
+    </Application.Resources>
+</Application>
