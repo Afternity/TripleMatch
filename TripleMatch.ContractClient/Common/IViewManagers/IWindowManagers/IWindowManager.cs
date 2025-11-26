@@ -3,6 +3,7 @@
     public interface IWindowManager
     {
         void ShowAuthWindow();
+        void ShowRegistrationWindow();
         void ShowMainWindow();
         void ShowProfileWindow();
     }

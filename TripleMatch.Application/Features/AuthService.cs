@@ -40,9 +40,6 @@ namespace TripleMatch.Application.Features
                 _mapper.Map<User>(authDto),
                 cancellationToken);
 
-            if (entity == null)
-                throw new NotFoundException(nameof(entity), $"{authDto.Email} + {authDto.Password}");
-
             return _mapper.Map<UserProfileVm>(entity);
         }
     }

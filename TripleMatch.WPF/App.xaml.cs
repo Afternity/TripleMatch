@@ -4,7 +4,10 @@ using TripleMatch.ContractClient.Common.IViewManagers.IPageManagers;
 using TripleMatch.ContractClient.Common.IViewManagers.IWindowManagers;
 using TripleMatch.ContractClient.DependencyInjections;
 using TripleMatch.ContractClient.ViewModels;
+using TripleMatch.WPF.Common.ViewManagers.IFrameManagers;
+using TripleMatch.WPF.Common.ViewManagers.PageManagers;
 using TripleMatch.WPF.Common.ViewManagers.WindowManagers;
+using TripleMatch.WPF.Views.Pages;
 using TripleMatch.WPF.Views.Windows;
 
 namespace TripleMatch.WPF
@@ -16,7 +19,6 @@ namespace TripleMatch.WPF
     {
         private IServiceProvider? _serviceProvider;
         private IWindowManager? _windowManager;
-        private IPageManager? _pageManager;
 
         protected override void OnStartup(StartupEventArgs e)
         {
@@ -40,6 +42,15 @@ namespace TripleMatch.WPF
             services.AddContractClient();
 
             services.AddTransient<AuthWindow>();
+            services.AddTransient<RegistrationWindow>();
+            services.AddTransient<MainWindow>();
+            services.AddTransient<GamePage>();
+            services.AddTransient<ProfileWindow>();
+
+
+            services.AddSingleton<IWindowManager, WindowManager>();
+            services.AddSingleton<IPageManager, PageManager>();
+            services.AddSingleton<IFrameContainer>(sp => sp.GetRequiredService<MainWindow>());
         }
 
         protected override void OnExit(ExitEventArgs e)

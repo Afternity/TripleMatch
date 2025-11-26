@@ -9,19 +9,14 @@ using TripleMatch.Domain.Interfaces.IServiceInterfaces;
 using TripleMatch.Shered.Contracts.DTOs;
 using TripleMatch.Shered.Contracts.MessageVm;
 using TripleMatch.Shered.Contracts.MessageVMs;
-using TripleMatch.Shered.Contracts.Profilies;
 
 namespace TripleMatch.ContractClient.ViewModels
 {
-    public partial class AuthViewModel
+    public partial class RegistrationViewModel
         : ObservableObject
     {
         [ObservableProperty]
-        private AuthDto _authDto = new AuthDto
-        {
-            Email = "alex.vasiliev@example.com",
-            Password = "hashed_password_1"
-        };
+        private RegistrationDto _registrationDto = new RegistrationDto();
 
         [ObservableProperty]
         private MessageVm _messageVm = new MessageVm();
@@ -29,7 +24,7 @@ namespace TripleMatch.ContractClient.ViewModels
         private readonly IServiceScopeFactory _scopeFactory;
         private readonly IWindowManager _windowManager;
 
-        public AuthViewModel(
+        public RegistrationViewModel(
             IServiceScopeFactory scopeFactory,
             IWindowManager windowManager)
         {
@@ -38,7 +33,7 @@ namespace TripleMatch.ContractClient.ViewModels
         }
 
         [RelayCommand]
-        private async Task AuthAsync()
+        private async Task RegisterAsync()
         {
             try
             {
@@ -49,27 +44,16 @@ namespace TripleMatch.ContractClient.ViewModels
                     MessageState.Info,
                     DecoratorLogging.Start);
 
-                var service = scope.ServiceProvider.GetRequiredService<IAuthService>();
-                var entity = await service.AuthAcync(AuthDto, tokenSource.Token);
-
-                if (entity == null)
-                {
-                    MessageVm.SetMassage(
-                        MessageState.Fail,
-                        DecoratorLogging.EntityNotFound);
-
-                    return;
-                }
-
-                UserProfile.Profile = entity;
+                var service = scope.ServiceProvider.GetRequiredService<IRegistrationService>();
+                await service.RegistrationAsync(RegistrationDto, tokenSource.Token);
 
                 MessageVm.SetMassage(
                     MessageState.Success,
-                    DecoratorLogging.EntityGetSuccess);
+                    DecoratorLogging.EntityCreateSuccess);
 
                 await Task.Delay(2000);
 
-                ShowMainWindow();
+                ShowAuthWindow();
             }
             catch (OperationCanceledException)
             {
@@ -91,16 +75,9 @@ namespace TripleMatch.ContractClient.ViewModels
             }
         }
 
-        [RelayCommand]
-        private void ShowRegistrationWindow()
+        private void ShowAuthWindow()
         {
-            _windowManager.ShowRegistrationWindow();
+            _windowManager.ShowAuthWindow();
         }
-
-        private void ShowMainWindow()
-        {
-            _windowManager.ShowMainWindow();
-        }
-
     }
 }

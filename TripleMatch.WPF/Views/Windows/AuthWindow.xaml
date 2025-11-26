@@ -5,15 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TripleMatch.WPF.Views.Windows"
         mc:Ignorable="d"
-        Title="Авторизация" Height="250" Width="470">
+        Title="Авторизация" Height="350" Width="500">
 
-    <Grid Background="#7A8BDB">
+    <Grid>
 
         <Border Style="{StaticResource MainBorder}" VerticalAlignment="Center" 
                 HorizontalAlignment="Center">
 
             <Grid Style="{StaticResource GridInBorder}">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -44,8 +45,12 @@
                     Content="Войти"
                     Grid.Row="4" Grid.ColumnSpan="2"/>
 
+                <Button Command="{Binding ShowRegistrationWindowCommand}"
+                    Content="У вас нет Аккаунта?" 
+                    Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"/>
+
                 <TextBlock Text="{Binding MessageVm.Message}"
-                    Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                    Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
                     TextWrapping="Wrap"/>
             </Grid>
         </Border>

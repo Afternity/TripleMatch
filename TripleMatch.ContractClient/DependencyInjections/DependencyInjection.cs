@@ -16,6 +16,10 @@ namespace TripleMatch.ContractClient.DependencyInjections
             services.AddApplication();
 
             services.AddTransient<AuthViewModel>();
+            services.AddTransient<RegistrationViewModel>();
+            services.AddTransient<MainViewModel>();
+            services.AddTransient<GameViewModel>();
+            services.AddTransient<ProfileViewModel>();
 
             return services;
         }

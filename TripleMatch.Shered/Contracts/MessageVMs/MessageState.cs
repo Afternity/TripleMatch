@@ -1,4 +1,4 @@
-﻿namespace TripleMatch.Domain.Enums
+﻿namespace TripleMatch.Shered.Contracts.MessageVMs
 {
     public enum MessageState
     {
