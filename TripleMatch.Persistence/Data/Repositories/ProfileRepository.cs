@@ -15,6 +15,13 @@ namespace TripleMatch.Persistence.Data.Repositories
             _context = context; 
         }
 
+        public Task<User?> GetByIdAsync(
+            Guid id,
+            CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task UpdateAsync(
             User model,
             CancellationToken cancellationToken)

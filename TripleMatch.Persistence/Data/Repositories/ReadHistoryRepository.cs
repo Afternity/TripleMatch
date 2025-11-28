@@ -16,6 +16,18 @@ namespace TripleMatch.Persistence.Data.Repositories
             _context = context;
         }
 
+        public async Task<History?> BestUserHistory(
+            User model,
+            CancellationToken cancellationToken)
+        {
+            return await _context.Histories
+                .AsNoTracking()
+                .Where(history => history.UserId == model.Id)
+                .OrderByDescending(history => history.Score)
+                .Take(1)
+                .FirstOrDefaultAsync(cancellationToken);
+        }
+
         public async Task<IList<History>> GetFiveBestHistoriesScore(
             CancellationToken cancellationToken)
         {

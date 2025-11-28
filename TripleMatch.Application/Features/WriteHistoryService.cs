@@ -8,34 +8,38 @@ using TripleMatch.Shered.Contracts.DTOs;
 
 namespace TripleMatch.Application.Features
 {
-    public class ProfileService
-        : IProfileService
+    public class WriteHistoryService
+        : IWreateHistoryService
     {
-        private readonly IProfileRepository _repository;
+        private readonly IWreateHistoryRepository _repository;
         private readonly IMapper _mapper;
-        private readonly UpdateProfileDtoValidator _validator;
+        private readonly WriteHistoryDtoValidator _validator;
 
-        public ProfileService(
-            IProfileRepository repository,
-            IMapper mapper, 
-            UpdateProfileDtoValidator validator)
+        public WriteHistoryService(
+            IWreateHistoryRepository repository,
+            IMapper mapper,
+            WriteHistoryDtoValidator validator)
         {
             _repository = repository;
             _mapper = mapper;
             _validator = validator;
         }
 
-        public async Task UpdateAsync(
-            UpdateProfileDto model, 
+        public async Task CreateAsync(
+            WriteHistoryDto model,
             CancellationToken cancellationToken)
         {
-            var validation = await _validator.ValidateAsync(model, cancellationToken);
+              var validation = await _validator.ValidateAsync(
+                  model,
+                  cancellationToken); 
 
             if (validation.IsValid == false)
                 throw new ValidationException(validation.Errors);
 
-            await _repository.UpdateAsync(
-                _mapper.Map<User>(model),
+            var entity = _mapper.Map<History>(model);
+
+            await _repository.CreateAsync(
+                entity,
                 cancellationToken);
         }
     }

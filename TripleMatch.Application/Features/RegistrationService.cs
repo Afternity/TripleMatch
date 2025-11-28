@@ -5,7 +5,6 @@ using TripleMatch.Domain.Interfaces.IRepositoryInterfaces;
 using TripleMatch.Domain.Interfaces.IServiceInterfaces;
 using TripleMatch.Domain.Models.DataBaseModels;
 using TripleMatch.Shered.Contracts.DTOs;
-using TripleMatch.Shered.Contracts.VMs;
 
 namespace TripleMatch.Application.Features
 {

@@ -4,10 +4,10 @@ using TripleMatch.Shered.Contracts.DTOs;
 
 namespace TripleMatch.Application.Common.Validations
 {
-    public class CreateHistoryDtoValidator
-        : AbstractValidator<CreateHistoryDto>
+    public class WriteHistoryDtoValidator
+        : AbstractValidator<WriteHistoryDto>
     {
-        public CreateHistoryDtoValidator()
+        public WriteHistoryDtoValidator()
         {
             RuleFor(dto => dto.Score)
                 .NotEmpty()

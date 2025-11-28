@@ -5,7 +5,7 @@ namespace TripleMatch.Domain.Interfaces.IServiceInterfaces
     public interface IWreateHistoryService
     {
         Task CreateAsync(
-            CreateHistoryDto model,
+            WriteHistoryDto model,
             CancellationToken cancellationToken);
     }
 }

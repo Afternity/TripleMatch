@@ -17,7 +17,7 @@ namespace TripleMatch.Application.DependencyInjections
             services.AddScoped<IProfileService, ProfileService>();
             services.AddScoped<IReadHistoryService, ReadHistoryService>();
             services.AddScoped<IRegistrationService, RegistrationService>();
-            services.AddScoped<IWreateHistoryService, WreateHistoryService>();
+            services.AddScoped<IWreateHistoryService, WriteHistoryService>();
 
             return services;
         }

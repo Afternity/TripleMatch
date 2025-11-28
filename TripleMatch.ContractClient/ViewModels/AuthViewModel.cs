@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Input;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
+using TripleMatch.Application.Common.Interfaces.InterfaceViewModels;
 using TripleMatch.ContractClient.Common.Constants;
 using TripleMatch.ContractClient.Common.ContractClientLogging;
 using TripleMatch.ContractClient.Common.IViewManagers.IWindowManagers;
@@ -14,7 +15,8 @@ using TripleMatch.Shered.Contracts.Profilies;
 namespace TripleMatch.ContractClient.ViewModels
 {
     public partial class AuthViewModel
-        : ObservableObject
+        : ObservableObject,
+        IAuthViewModel
     {
         [ObservableProperty]
         private AuthDto _authDto = new AuthDto
@@ -38,7 +40,7 @@ namespace TripleMatch.ContractClient.ViewModels
         }
 
         [RelayCommand]
-        private async Task AuthAsync()
+        public async Task AuthAsync()
         {
             try
             {
@@ -92,12 +94,12 @@ namespace TripleMatch.ContractClient.ViewModels
         }
 
         [RelayCommand]
-        private void ShowRegistrationWindow()
+        public void ShowRegistrationWindow()
         {
             _windowManager.ShowRegistrationWindow();
         }
 
-        private void ShowMainWindow()
+        public void ShowMainWindow()
         {
             _windowManager.ShowMainWindow();
         }

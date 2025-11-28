@@ -3,7 +3,9 @@ using System.Windows;
 using TripleMatch.ContractClient.Common.IViewManagers.IPageManagers;
 using TripleMatch.ContractClient.Common.IViewManagers.IWindowManagers;
 using TripleMatch.ContractClient.DependencyInjections;
-using TripleMatch.ContractClient.ViewModels;
+using TripleMatch.Domain.Interfaces.IServiceInterfaces;
+using TripleMatch.Shered.Contracts.DTOs;
+using TripleMatch.Shered.Contracts.Profilies;
 using TripleMatch.WPF.Common.ViewManagers.IFrameManagers;
 using TripleMatch.WPF.Common.ViewManagers.PageManagers;
 using TripleMatch.WPF.Common.ViewManagers.WindowManagers;
@@ -20,19 +22,47 @@ namespace TripleMatch.WPF
         private IServiceProvider? _serviceProvider;
         private IWindowManager? _windowManager;
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
-            var services = new ServiceCollection();
 
-            ConfigureServices(services);
+                var services = new ServiceCollection();
+                ConfigureServices(services);
 
-            _serviceProvider = services.BuildServiceProvider();
+                _serviceProvider = services.BuildServiceProvider();
+                _windowManager = new WindowManager(_serviceProvider);
 
-            _windowManager = new WindowManager(_serviceProvider);
 
-            var window = _serviceProvider.GetRequiredService<AuthWindow>();
-            window.DataContext = _serviceProvider.GetRequiredService<AuthViewModel>();
-            window.Show();
+                var scopeFactory = _serviceProvider.GetRequiredService<IServiceScopeFactory>();
+
+                using (var scope = scopeFactory.CreateScope())
+                {
+                    var authService = scope.ServiceProvider.GetRequiredService<IAuthService>();
+
+                    var authDto = new AuthDto
+                    {
+                        Email = "alex.vasiliev@example.com",
+                        Password = "hashed_password_1"
+                    };
+
+                    try
+                    {
+                        var userProfile = await authService.AuthAcync(authDto, CancellationToken.None);
+
+                        if (userProfile != null)
+                        {
+                            UserProfile.Profile = userProfile;
+                            _windowManager.ShowProfileWindow();
+                        }
+                        else
+                        {
+                            _windowManager.ShowAuthWindow();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _windowManager.ShowAuthWindow();
+                    }
+                }
 
             base.OnStartup(e);
         }

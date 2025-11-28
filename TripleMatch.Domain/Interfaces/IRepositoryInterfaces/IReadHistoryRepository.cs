@@ -7,6 +7,10 @@ namespace TripleMatch.Domain.Interfaces.IRepositoryInterfaces
         Task<History?> UserLastHistory(
             User model,
             CancellationToken cancellationToken);
+        Task<History?> BestUserHistory(
+            User model,
+            CancellationToken cancellationToken);
+
         Task<IList<History>> GetUserHistories(
             User model,
             CancellationToken cancellationToken);

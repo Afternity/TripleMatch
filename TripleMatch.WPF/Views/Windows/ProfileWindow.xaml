@@ -5,8 +5,100 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TripleMatch.WPF.Views.Windows"
         mc:Ignorable="d"
-        Title="ProfileWindow" Height="450" Width="800">
+        Title="Профиль" Height="600" Width="900">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="40"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="50"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="40"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"/>
+            <RowDefinition Height="200"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+            <RowDefinition Height="40"/>
+        </Grid.RowDefinitions>
+
+        <Button Command="{Binding ShowAuthWindowCommand}"
+            Content="Перезайти"
+            Grid.Column="4" Grid.Row="0"
+                HorizontalAlignment="Right"/>
+
+        <Border Style="{StaticResource MainBorder}" Height="150" VerticalAlignment="Top"
+        Grid.Column="1" Grid.Row="3" >
+            <Grid Style="{StaticResource GridInBorder}">
+                <StackPanel>
+                    <TextBlock Text="Лучший результат"/>
+                    <TextBlock Text="{Binding BestUserHistoryVm.Score, StringFormat='Счёт: {0}'}"/>
+                    <TextBlock Text="{Binding BestUserHistoryVm.DateTime, StringFormat='Время: {0}'}"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Style="{StaticResource MainBorder}"
+                Grid.Column="1" Grid.Row="1" Grid.RowSpan="2">
+            <Grid Style="{StaticResource GridInBorder}">
+                <StackPanel>
+                    <TextBlock Text="Имя"/>
+                    <TextBox Text="{Binding UpdateProfileDto.FullName}"/>
+
+                    <TextBlock Text="Email"/>
+                    <TextBox Text="{Binding UpdateProfileDto.Email}"/>
+
+                    <TextBlock Text="Пароль"/>
+                    <TextBox Text="{Binding UpdateProfileDto.Password}"/>
+
+                    <Button Command="{Binding UpdateProfileCommand}"
+                        Content="Обновить профиль"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Style="{StaticResource MainBorder}" VerticalAlignment="Stretch" Background="LightGoldenrodYellow"
+            Grid.Column="3" Grid.Row="1" >
+            <Grid Style="{StaticResource GridInBorder}">
+                <StackPanel>
+                    <TextBlock Text="Топ 5" HorizontalAlignment="Center"/>
+
+                    <!-- ИСПРАВЛЕННАЯ ПРИВЯЗКА -->
+                    <DataGrid AutoGenerateColumns="False" 
+                              ItemsSource="{Binding FiveBestHistoriesScoreListVm.Histories}" 
+                              Background="LightGoldenrodYellow">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Имя" Binding="{Binding FullName}" Width="200"/>
+                            <DataGridTextColumn Header="Счёт" Binding="{Binding Score}" Width="70"/>
+                            <DataGridTextColumn Header="Время" Binding="{Binding DateTime}" Width="150"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Style="{StaticResource MainBorder}" Height="200" VerticalAlignment="Stretch" 
+             Grid.Column="3" Grid.Row="2" Grid.RowSpan="2">
+            
+            <Grid Style="{StaticResource GridInBorder}">
+                
+                <StackPanel>
+                    
+                    <TextBlock Text="Мои игры" HorizontalAlignment="Center"/>
+
+                    <!-- ИСПРАВЛЕННАЯ ПРИВЯЗКА -->
+                    <DataGrid AutoGenerateColumns="False" 
+                       ItemsSource="{Binding UserHistoiesListVm.Histories}" 
+                       Background="LightGoldenrodYellow">
+                        
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Счёт" Binding="{Binding Score}" Width="70"/>
+                            <DataGridTextColumn Header="Время" Binding="{Binding DateTime}" Width="100"/>
+                        </DataGrid.Columns>
+                        
+                    </DataGrid>
+                </StackPanel>
+            </Grid>
+        </Border>
     </Grid>
 </Window>

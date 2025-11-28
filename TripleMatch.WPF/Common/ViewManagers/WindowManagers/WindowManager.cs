@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
+using TripleMatch.Application.Common.Interfaces.InterfaceViewModels;
 using TripleMatch.ContractClient.Common.IViewManagers.IWindowManagers;
 using TripleMatch.ContractClient.ViewModels;
 using TripleMatch.WPF.Views.Windows;
@@ -20,7 +21,7 @@ namespace TripleMatch.WPF.Common.ViewManagers.WindowManagers
         public void ShowAuthWindow()
         {
             var window = _provider.GetRequiredService<AuthWindow>();
-            window.DataContext = _provider.GetRequiredService<AuthViewModel>();
+            window.DataContext = _provider.GetRequiredService<IAuthViewModel>();
             window.Show();
 
             var views = System.Windows.Application.Current.Windows.OfType<Window>().ToList();

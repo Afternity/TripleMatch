@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using TripleMatch.Application.Common.Interfaces.InterfaceViewModels;
 using TripleMatch.Application.DependencyInjections;
 using TripleMatch.ContractClient.ViewModels;
 using TripleMatch.Persistence.DependencyInjections;
@@ -15,7 +16,7 @@ namespace TripleMatch.ContractClient.DependencyInjections
 
             services.AddApplication();
 
-            services.AddTransient<AuthViewModel>();
+            services.AddTransient<IAuthViewModel, AuthViewModel>();
             services.AddTransient<RegistrationViewModel>();
             services.AddTransient<MainViewModel>();
             services.AddTransient<GameViewModel>();
