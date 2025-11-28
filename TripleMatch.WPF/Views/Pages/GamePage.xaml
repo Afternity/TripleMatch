@@ -5,10 +5,116 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:TripleMatch.WPF.Views.Pages"
       mc:Ignorable="d" 
-      d:DesignHeight="450" d:DesignWidth="800"
+      d:DesignHeight="800" d:DesignWidth="900"
       Title="GamePage">
 
-    <Grid>
-        
+    <Grid Background="#F0F0F0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="200"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Игровое поле 9x9 -->
+        <Grid Grid.Column="0" Background="White" Margin="20">
+            <ItemsControl ItemsSource="{Binding GameBoardVm.Cells}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="9" Rows="9"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Command="{Binding RelativeSource={RelativeSource AncestorType=Page}, 
+                                        Path=DataContext.CellClickedCommand}" 
+                                CommandParameter="{Binding}"
+                                Margin="2"
+                                FontWeight="Bold"
+                                FontSize="14">
+                            <Button.Style>
+                                <Style TargetType="Button">
+                                    <Setter Property="Background" Value="White"/>
+                                    <Setter Property="BorderBrush" Value="#CCCCCC"/>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding PieceType}" Value="Red">
+                                            <Setter Property="Background" Value="#FF6B6B"/>
+                                            <Setter Property="Content" Value="🔴"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PieceType}" Value="Blue">
+                                            <Setter Property="Background" Value="#4ECDC4"/>
+                                            <Setter Property="Content" Value="🔵"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PieceType}" Value="Green">
+                                            <Setter Property="Background" Value="#95E77D"/>
+                                            <Setter Property="Content" Value="🟢"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PieceType}" Value="Yellow">
+                                            <Setter Property="Background" Value="#FFE66D"/>
+                                            <Setter Property="Content" Value="🟡"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PieceType}" Value="Purple">
+                                            <Setter Property="Background" Value="#C7B3E5"/>
+                                            <Setter Property="Content" Value="🟣"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding PieceType}" Value="Orange">
+                                            <Setter Property="Background" Value="#FFA500"/>
+                                            <Setter Property="Content" Value="🟠"/>
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="BorderThickness" Value="3"/>
+                                            <Setter Property="BorderBrush" Value="Black"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Grid>
+
+        <!-- Панель информации -->
+        <Grid Grid.Column="1" Background="#E8E8E8" Margin="10">
+            <StackPanel VerticalAlignment="Top" Margin="10">
+                <TextBlock Text="Статистика" FontSize="18" FontWeight="Bold" Margin="0,0,0,20"/>
+
+                <TextBlock Text="Счёт:" FontSize="14" Margin="0,0,0,5"/>
+                <TextBlock Text="{Binding GameBoardVm.Score}" 
+                           FontSize="20" FontWeight="Bold" Foreground="#FF6B6B" Margin="0,0,0,20"/>
+
+                <TextBlock Text="Время:" FontSize="14" Margin="0,0,0,5"/>
+                <TextBlock Text="{Binding GameBoardVm.TimeRemaining}" 
+                           FontSize="20" FontWeight="Bold" Foreground="#4ECDC4" Margin="0,0,0,20"/>
+
+                <TextBlock Text="Статус:" FontSize="14" Margin="0,0,0,5"/>
+                <TextBlock FontSize="16" FontWeight="Bold">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Text" Value="Играем..."/>
+                            <Setter Property="Foreground" Value="#95E77D"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding GameBoardVm.IsGameOver}" Value="True">
+                                    <Setter Property="Text" Value="КОНЕЦ ИГРЫ!"/>
+                                    <Setter Property="Foreground" Value="#FF6B6B"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+                <Button Command="{Binding RestartGameCommand}" 
+                        Content="Новая игра" 
+                        Padding="10,8" 
+                        Margin="0,30,0,0"
+                        Background="#4ECDC4"
+                        Foreground="White"
+                        FontWeight="Bold"/>
+
+                <TextBlock Text="{Binding MessageVm.Message}" 
+                           TextWrapping="Wrap" 
+                           Margin="0,20,0,0"
+                           FontSize="12"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>

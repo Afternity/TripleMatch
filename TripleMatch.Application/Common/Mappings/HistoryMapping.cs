@@ -14,7 +14,8 @@ namespace TripleMatch.Application.Common.Mappings
             CreateMap<WriteHistoryDto, History>();
 
             CreateMap<History, FiveBestHistoriesScoreLookupDto>()
-                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName));
+                .ForMember(dest => dest.FullName, opt => opt.MapFrom(src => src.User.FullName))
+                .ForMember(dest => dest.Rank, opt => opt.Ignore());
 
             CreateMap<History, UserHistoriesLookupDto>();
             CreateMap<History, UserLastHistoryVm>();

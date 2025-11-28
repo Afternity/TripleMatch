@@ -14,9 +14,6 @@ using TripleMatch.WPF.Views.Windows;
 
 namespace TripleMatch.WPF
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
     public partial class App : System.Windows.Application
     {
         private IServiceProvider? _serviceProvider;
@@ -24,59 +21,58 @@ namespace TripleMatch.WPF
 
         protected override async void OnStartup(StartupEventArgs e)
         {
+            var services = new ServiceCollection();
+            ConfigureServices(services);
 
-                var services = new ServiceCollection();
-                ConfigureServices(services);
+            _serviceProvider = services.BuildServiceProvider();
+            _windowManager = new WindowManager(_serviceProvider);
 
-                _serviceProvider = services.BuildServiceProvider();
-                _windowManager = new WindowManager(_serviceProvider);
+            var scopeFactory = _serviceProvider.GetRequiredService<IServiceScopeFactory>();
 
+            using (var scope = scopeFactory.CreateScope())
+            {
+                var authService = scope.ServiceProvider.GetRequiredService<IAuthService>();
 
-                var scopeFactory = _serviceProvider.GetRequiredService<IServiceScopeFactory>();
-
-                using (var scope = scopeFactory.CreateScope())
+                var authDto = new AuthDto
                 {
-                    var authService = scope.ServiceProvider.GetRequiredService<IAuthService>();
+                    Email = "alex.vasiliev@example.com",
+                    Password = "hashed_password_1"
+                };
 
-                    var authDto = new AuthDto
+                try
+                {
+                    var userProfile = await authService.AuthAcync(authDto, CancellationToken.None);
+
+                    if (userProfile != null)
                     {
-                        Email = "alex.vasiliev@example.com",
-                        Password = "hashed_password_1"
-                    };
-
-                    try
-                    {
-                        var userProfile = await authService.AuthAcync(authDto, CancellationToken.None);
-
-                        if (userProfile != null)
-                        {
-                            UserProfile.Profile = userProfile;
-                            _windowManager.ShowProfileWindow();
-                        }
-                        else
-                        {
-                            _windowManager.ShowAuthWindow();
-                        }
+                        UserProfile.Profile = userProfile;
+                        _windowManager.ShowMainWindow();
                     }
-                    catch (Exception ex)
+                    else
                     {
                         _windowManager.ShowAuthWindow();
                     }
                 }
+                catch (Exception ex)
+                {
+                    _windowManager.ShowAuthWindow();
+                }
+            }
 
             base.OnStartup(e);
         }
 
         private void ConfigureServices(IServiceCollection services)
         {
+            // ✅ Все ViewModel и Services уже зарегистрированы в AddContractClient()
             services.AddContractClient();
 
+            // Регистрация только View (Pages и Windows)
             services.AddTransient<AuthWindow>();
             services.AddTransient<RegistrationWindow>();
             services.AddTransient<MainWindow>();
             services.AddTransient<GamePage>();
             services.AddTransient<ProfileWindow>();
-
 
             services.AddSingleton<IWindowManager, WindowManager>();
             services.AddSingleton<IPageManager, PageManager>();
@@ -93,5 +89,4 @@ namespace TripleMatch.WPF
             base.OnExit(e);
         }
     }
-
 }

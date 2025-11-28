@@ -19,6 +19,7 @@
     <ProjectReference Include="..\TripleMatch.Application\TripleMatch.Application.csproj" />
     <ProjectReference Include="..\TripleMatch.Domain\TripleMatch.Domain.csproj" />
     <ProjectReference Include="..\TripleMatch.Persistence\TripleMatch.Persistence.csproj" />
+    <ProjectReference Include="..\TripleMatch.Shered\TripleMatch.Shered.csproj" />
   </ItemGroup>
 
 </Project>

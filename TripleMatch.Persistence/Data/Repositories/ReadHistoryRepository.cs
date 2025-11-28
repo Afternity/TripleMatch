@@ -45,8 +45,8 @@ namespace TripleMatch.Persistence.Data.Repositories
         {
             return await _context.Histories
                 .AsNoTracking()
-                .Where(history =>
-                    history.UserId == model.Id)
+                .Where(history => history.UserId == model.Id)
+                .OrderByDescending(h => h.DateTime)  
                 .ToListAsync(cancellationToken);
         }
 

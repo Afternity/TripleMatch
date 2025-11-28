@@ -13,6 +13,7 @@ namespace TripleMatch.Application.Common.Mappings
             CreateMap<AuthDto, User>();
             CreateMap<RegistrationDto, User>();
             CreateMap<UpdateProfileDto, User>();
+            CreateMap<UserProfileVm, User>();
 
             CreateMap<User, UserProfileVm>();
         }

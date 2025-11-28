@@ -38,7 +38,7 @@ namespace TripleMatch.ContractClient.ViewModels
         private FiveBestHistoriesScoreListVm _fiveBestHistoriesScoreListVm = new FiveBestHistoriesScoreListVm();
 
         [ObservableProperty]
-        private UserHistoriesListVm _userHistoiesListVm = new UserHistoriesListVm();
+        private UserHistoriesListVm _userHistoriesListVm = new UserHistoriesListVm();
 
         [ObservableProperty]
         private MessageVm _messageVm = new MessageVm();
@@ -59,7 +59,6 @@ namespace TripleMatch.ContractClient.ViewModels
 
         private async Task LoadedAsync()
         {
-            await UserLastHistory();
             await BestUserHistory();
             await GetUserHistories();
             await GetFiveBestHistoriesScore();
@@ -238,7 +237,7 @@ namespace TripleMatch.ContractClient.ViewModels
             try
             {
                 using var tokenSource = new CancellationTokenSource(
-                    TimeLimitConstants.BaseLimit);
+                    TimeLimitConstants.BaseLimit);  
                 using var scope = _scopeFactory.CreateScope();
 
                 MessageVm.SetMassage(
@@ -251,7 +250,7 @@ namespace TripleMatch.ContractClient.ViewModels
                     UserProfile.Profile,
                     tokenSource.Token);
 
-                if (entities.Histories.Count == 0)
+                if (entities.Histories?.Count == 0)  
                 {
                     MessageVm.SetMassage(
                         MessageState.Fail,
@@ -259,7 +258,7 @@ namespace TripleMatch.ContractClient.ViewModels
                     return;
                 }
 
-                UserHistoiesListVm = entities;
+                UserHistoriesListVm = entities;
 
                 MessageVm.SetMassage(
                     MessageState.Success,

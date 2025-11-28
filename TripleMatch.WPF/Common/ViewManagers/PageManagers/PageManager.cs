@@ -23,9 +23,9 @@ namespace TripleMatch.WPF.Common.ViewManagers.PageManagers
         public void ShowGamePage()
         {
             var frame = _frameContainer.GetNavigationFrame();
-            
-            if (frame.Content is GamePage)
-                return;
+
+            // Очищаем навигационную историю
+            frame.NavigationService.RemoveBackEntry();
 
             var page = _provider.GetRequiredService<GamePage>();
             page.DataContext = _provider.GetRequiredService<GameViewModel>();

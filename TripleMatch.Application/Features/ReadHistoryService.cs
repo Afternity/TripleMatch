@@ -40,10 +40,17 @@ namespace TripleMatch.Application.Features
             var entities = await _repository.GetFiveBestHistoriesScore(
                 cancellationToken);
 
+            var dtos = _mapper.Map<IList<FiveBestHistoriesScoreLookupDto>>(entities);
+            
+            // ✅ Установка рангов
+            for (int i = 0; i < dtos.Count; i++)
+            {
+                dtos[i].Rank = i + 1;
+            }
 
             return new FiveBestHistoriesScoreListVm()
             {
-                Histories = _mapper.Map<IList<FiveBestHistoriesScoreLookupDto>>(entities)
+                Histories = dtos
             };
         }
 

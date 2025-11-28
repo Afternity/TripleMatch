@@ -4,8 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TripleMatch.WPF.Views.Windows"
+        xmlns:converters="clr-namespace:TripleMatch.WPF.Common.Converters"
         mc:Ignorable="d"
         Title="RegistrationWindow" Height="350" Width="500">
+
+    <Window.Resources>
+        <converters:MessageStateToBrushConverter x:Key="MessageStateToBrushConverter"/>
+    </Window.Resources>
+
     <Grid>
 
         <Grid>
@@ -53,6 +59,9 @@
                         Grid.Row="4" Grid.ColumnSpan="2"/>
 
                     <TextBlock Text="{Binding MessageVm.Message}"
+                        Foreground="{Binding MessageVm.State,
+                        Converter={StaticResource MessageStateToBrushConverter}}"
+                        FontWeight="Bold"
                         Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2"
                         TextWrapping="Wrap"/>
                 </Grid>

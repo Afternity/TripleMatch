@@ -17,7 +17,7 @@ namespace TripleMatch.WPF.Views.Windows
 
         public Frame GetNavigationFrame()
         {
-            return NavigationFrame;
+            return new Frame();
         }
     }
 }

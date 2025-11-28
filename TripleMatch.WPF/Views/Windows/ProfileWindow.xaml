@@ -4,8 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TripleMatch.WPF.Views.Windows"
+        xmlns:converters="clr-namespace:TripleMatch.WPF.Common.Converters"
         mc:Ignorable="d"
         Title="Профиль" Height="600" Width="900">
+
+    <Window.Resources>
+        <converters:MessageStateToBrushConverter x:Key="MessageStateToBrushConverter"/>
+        <converters:RankToBackgroundBrushConverter x:Key="RankToBackgroundBrushConverter"/>
+    </Window.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="40"/>
@@ -24,7 +31,7 @@
 
         <Button Command="{Binding ShowAuthWindowCommand}"
             Content="Перезайти"
-            Grid.Column="4" Grid.Row="0"
+            Grid.Column="3" Grid.Row="0"
                 HorizontalAlignment="Right"/>
 
         <Border Style="{StaticResource MainBorder}" Height="150" VerticalAlignment="Top"
@@ -58,20 +65,26 @@
         </Border>
 
         <Border Style="{StaticResource MainBorder}" VerticalAlignment="Stretch" Background="LightGoldenrodYellow"
-            Grid.Column="3" Grid.Row="1" >
+            Grid.Column="2" Grid.ColumnSpan="2" Grid.Row="1" >
             <Grid Style="{StaticResource GridInBorder}">
                 <StackPanel>
                     <TextBlock Text="Топ 5" HorizontalAlignment="Center"/>
 
-                    <!-- ИСПРАВЛЕННАЯ ПРИВЯЗКА -->
                     <DataGrid AutoGenerateColumns="False" 
                               ItemsSource="{Binding FiveBestHistoriesScoreListVm.Histories}" 
                               Background="LightGoldenrodYellow">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="Имя" Binding="{Binding FullName}" Width="200"/>
+                            <DataGridTextColumn Header="Место" Binding="{Binding Rank}" Width="50"/>
+                            <DataGridTextColumn Header="Имя" Binding="{Binding FullName}" Width="100"/>
                             <DataGridTextColumn Header="Счёт" Binding="{Binding Score}" Width="70"/>
-                            <DataGridTextColumn Header="Время" Binding="{Binding DateTime}" Width="150"/>
+                            <DataGridTextColumn Header="Время" Binding="{Binding DateTime}" Width="130"/>
                         </DataGrid.Columns>
+                        <DataGrid.RowStyle>
+                            <Style TargetType="DataGridRow">
+                                <Setter Property="Background" 
+                                        Value="{Binding Rank, Converter={StaticResource RankToBackgroundBrushConverter}}"/>
+                            </Style>
+                        </DataGrid.RowStyle>
                     </DataGrid>
                 </StackPanel>
             </Grid>
@@ -86,19 +99,27 @@
                     
                     <TextBlock Text="Мои игры" HorizontalAlignment="Center"/>
 
-                    <!-- ИСПРАВЛЕННАЯ ПРИВЯЗКА -->
                     <DataGrid AutoGenerateColumns="False" 
-                       ItemsSource="{Binding UserHistoiesListVm.Histories}" 
-                       Background="LightGoldenrodYellow">
+                       ItemsSource="{Binding UserHistoriesListVm.Histories}" 
+                       Background="LightGoldenrodYellow"
+                              Height="130">
                         
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Счёт" Binding="{Binding Score}" Width="70"/>
-                            <DataGridTextColumn Header="Время" Binding="{Binding DateTime}" Width="100"/>
+                            <DataGridTextColumn Header="Время" Binding="{Binding DateTime}" Width="200"/>
                         </DataGrid.Columns>
                         
                     </DataGrid>
+                    
                 </StackPanel>
             </Grid>
         </Border>
+
+        <TextBlock Text="{Binding MessageVm.Message}"
+           Foreground="{Binding MessageVm.State,
+           Converter={StaticResource MessageStateToBrushConverter}}"
+           FontWeight="Bold"
+           Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+           TextWrapping="Wrap" VerticalAlignment="Bottom"/>
     </Grid>
 </Window>

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
 using TripleMatch.Application.Common.Interfaces.InterfaceViewModels;
+using TripleMatch.ContractClient.Common.IViewManagers.IPageManagers;
 using TripleMatch.ContractClient.Common.IViewManagers.IWindowManagers;
 using TripleMatch.ContractClient.ViewModels;
 using TripleMatch.WPF.Views.Windows;
@@ -46,6 +47,9 @@ namespace TripleMatch.WPF.Common.ViewManagers.WindowManagers
             window = _provider.GetRequiredService<MainWindow>();
             window.DataContext = _provider.GetRequiredService<MainViewModel>();
             window.Show();
+
+            var pageManager = _provider.GetRequiredService<IPageManager>();
+            pageManager.ShowGamePage();
 
             var auth = System.Windows.Application.Current.Windows
                .OfType<AuthWindow>()
