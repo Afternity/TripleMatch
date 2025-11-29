@@ -9,7 +9,8 @@ namespace TripleMatch.Application.Features
     {
         private Random _random = new Random();
 
-        public void InitializeBoard(GameBoardVm board)
+        public void InitializeBoard(
+            GameBoardVm board)
         {
             foreach (var cell in board.Cells)
             {
@@ -19,7 +20,8 @@ namespace TripleMatch.Application.Features
             RemoveInitialMatches(board);
         }
 
-        public void RemoveInitialMatches(GameBoardVm board)
+        public void RemoveInitialMatches(
+            GameBoardVm board)
         {
             for (int row = 0; row < GameBoardVm.GridSize; row++)
             {
@@ -37,7 +39,12 @@ namespace TripleMatch.Application.Features
             }
         }
 
-        public bool TrySwapAndMatch(GameBoardVm board, int row1, int col1, int row2, int col2)
+        public bool TrySwapAndMatch(
+            GameBoardVm board,
+            int row1,
+            int col1,
+            int row2,
+            int col2)
         {
             var cell1 = board.GetCell(row1, col1);
             var cell2 = board.GetCell(row2, col2);
@@ -125,7 +132,8 @@ namespace TripleMatch.Application.Features
             return count >= 3;
         }
 
-        private void RemoveMatches(GameBoardVm board)
+        private void RemoveMatches(
+            GameBoardVm board)
         {
             var cellsToRemove = new HashSet<(int, int)>();
 
@@ -184,7 +192,8 @@ namespace TripleMatch.Application.Features
             }
         }
 
-        private void ApplyGravity(GameBoardVm board)
+        private void ApplyGravity(
+            GameBoardVm board)
         {
             for (int col = 0; col < GameBoardVm.GridSize; col++)
             {

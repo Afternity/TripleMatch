@@ -21,7 +21,6 @@ namespace TripleMatch.ContractClient.DependencyInjections
             services.AddTransient<IAuthViewModel, AuthViewModel>();
             services.AddTransient<RegistrationViewModel>();
             services.AddTransient<MainViewModel>();
-            services.AddScoped<IGameService, GameService>();
             services.AddTransient<GameViewModel>();
             services.AddTransient<ProfileViewModel>();
 

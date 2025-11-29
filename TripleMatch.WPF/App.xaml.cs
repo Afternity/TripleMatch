@@ -27,37 +27,7 @@ namespace TripleMatch.WPF
             _serviceProvider = services.BuildServiceProvider();
             _windowManager = new WindowManager(_serviceProvider);
 
-            var scopeFactory = _serviceProvider.GetRequiredService<IServiceScopeFactory>();
-
-            using (var scope = scopeFactory.CreateScope())
-            {
-                var authService = scope.ServiceProvider.GetRequiredService<IAuthService>();
-
-                var authDto = new AuthDto
-                {
-                    Email = "alex.vasiliev@example.com",
-                    Password = "hashed_password_1"
-                };
-
-                try
-                {
-                    var userProfile = await authService.AuthAcync(authDto, CancellationToken.None);
-
-                    if (userProfile != null)
-                    {
-                        UserProfile.Profile = userProfile;
-                        _windowManager.ShowMainWindow();
-                    }
-                    else
-                    {
-                        _windowManager.ShowAuthWindow();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _windowManager.ShowAuthWindow();
-                }
-            }
+            _windowManager.ShowAuthWindow();
 
             base.OnStartup(e);
         }

@@ -19,6 +19,8 @@ namespace TripleMatch.Application.DependencyInjections
             services.AddScoped<IRegistrationService, RegistrationService>();
             services.AddScoped<IWreateHistoryService, WriteHistoryService>();
 
+            services.AddScoped<IGameService, GameService>();
+
             return services;
         }
     }

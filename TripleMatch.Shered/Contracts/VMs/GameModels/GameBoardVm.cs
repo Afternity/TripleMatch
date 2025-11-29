@@ -15,7 +15,7 @@ namespace TripleMatch.Shered.Contracts.VMs.GameModels
         private int _score = 0;
 
         [ObservableProperty]
-        private int _timeRemaining = 60;
+        private int _timeRemaining = 120;
 
         [ObservableProperty]
         private bool _isGameOver = false;
@@ -37,9 +37,14 @@ namespace TripleMatch.Shered.Contracts.VMs.GameModels
             }
         }
 
-        public GameCellVm? GetCell(int row, int col)
+        public GameCellVm? GetCell(
+            int row,
+            int col)
         {
-            if (row < 0 || row >= GridSize || col < 0 || col >= GridSize)
+            if (row < 0 ||
+                row >= GridSize ||
+                col < 0 ||
+                col >= GridSize)
                 return null;
 
             return Cells[row * GridSize + col];

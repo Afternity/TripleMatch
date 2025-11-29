@@ -1,8 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Extensions.DependencyInjection;
-using TripleMatch.Application.Features;
-using TripleMatch.ContractClient.Common.Constants;
+using TripleMatch.ContractClient.Common.ContractClientLogging;
 using TripleMatch.ContractClient.Common.IViewManagers.IWindowManagers;
 using TripleMatch.Domain.Interfaces.IServiceInterfaces;
 using TripleMatch.Shered.Contracts.DTOs;
@@ -27,26 +26,32 @@ namespace TripleMatch.ContractClient.ViewModels
         private MessageVm _messageVm = new MessageVm();
 
         private readonly IWindowManager _windowManager;
-        private readonly IGameService _gameService;
         private readonly IServiceScopeFactory _scopeFactory;
         private CancellationTokenSource? _gameTimerToken;
 
         public MainViewModel(
             IWindowManager windowManager,
-            IGameService gameService,
             IServiceScopeFactory scopeFactory)
         {
             _windowManager = windowManager;
-            _gameService = gameService;
             _scopeFactory = scopeFactory;
             InitializeGame();
         }
 
         private void InitializeGame()
         {
-            _gameService.InitializeBoard(GameBoardVm);
+            using (var scope = _scopeFactory.CreateScope())
+            {
+                var service = scope.ServiceProvider.GetRequiredService<IGameService>();
+
+                service.InitializeBoard(GameBoardVm);
+            }
+
             StartGameTimer();
-            MessageVm.SetMassage(MessageState.Info, "✅ Игра начата! Соединяй одинаковые фишки.");
+
+            MessageVm.SetMassage(
+                MessageState.Info,
+                GameDecoratorLogging.Start);
         }
 
         private void StartGameTimer()
@@ -98,27 +103,33 @@ namespace TripleMatch.ContractClient.ViewModels
             }
             else
             {
-                bool swapped = _gameService.TrySwapAndMatch(
-                    GameBoardVm,
-                    SelectedCell.Row,
-                    SelectedCell.Column,
-                    cell.Row,
-                    cell.Column);
-
-                SelectedCell.IsSelected = false;
-                SelectedCell = null;
-
-                if (!swapped)
+                using (var scope = _scopeFactory.CreateScope())
                 {
-                    MessageVm.SetMassage(
-                        MessageState.Warning,
-                        "⛔ Соседние фишки не совпадают. Попробуй ещё!");
-                }
-                else
-                {
-                    MessageVm.SetMassage(
-                        MessageState.Success,
-                        $"🎉 Отлично! +10 очков");
+                    var service = scope.ServiceProvider.GetRequiredService<IGameService>();
+
+                    bool swapped = service.TrySwapAndMatch(
+                                        GameBoardVm,
+                                        SelectedCell.Row,
+                                        SelectedCell.Column,
+                                        cell.Row,
+                                        cell.Column);
+
+
+                    SelectedCell.IsSelected = false;
+                    SelectedCell = null;
+
+                    if (!swapped)
+                    {
+                        MessageVm.SetMassage(
+                            MessageState.Warning,
+                            "⛔ Соседние фишки не совпадают. Попробуй ещё!");
+                    }
+                    else
+                    {
+                        MessageVm.SetMassage(
+                            MessageState.Success,
+                            $"🎉 Отлично! +10 очков");
+                    }
                 }
             }
         }
@@ -127,10 +138,10 @@ namespace TripleMatch.ContractClient.ViewModels
         {
             try
             {
-                using var tokenSource = new CancellationTokenSource(TimeLimitConstants.BaseLimit);
+                using var tokenSource = new CancellationTokenSource();
                 using var scope = _scopeFactory.CreateScope();
 
-                var writeHistoryService = scope.ServiceProvider.GetRequiredService<WriteHistoryService>();
+                var writeHistoryService = scope.ServiceProvider.GetRequiredService<IWreateHistoryService>();
 
                 var writeHistoryDto = new WriteHistoryDto
                 {
