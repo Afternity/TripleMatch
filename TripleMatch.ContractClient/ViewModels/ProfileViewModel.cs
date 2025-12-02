@@ -26,6 +26,7 @@ namespace TripleMatch.ContractClient.ViewModels
         [ObservableProperty]
         private UpdateProfileDto _updateProfileDto = new UpdateProfileDto
         {
+            Id = UserProfile.Profile.Id,
             FullName = UserProfile.Profile.FullName,
             Email = UserProfile.Profile.Email,
             Password = UserProfile.Profile.Password,

@@ -39,9 +39,9 @@
             <Grid Style="{StaticResource GridInBorder}">
                 <StackPanel>
                     <TextBlock Text="Лучший результат"/>
-                    <TextBlock Text="{Binding BestUserHistoryVm.Score, StringFormat='Счёт: {0}'}"/>
+                    <TextBlock Text="{Binding BestUserHistoryVm.Score, StringFormat='Счёт:  {0}'}"/>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Время: "/>
+                        <TextBlock Text="Время:" Margin="5 5 0 5"/>
                         <TextBlock Text="{Binding BestUserHistoryVm.DateTime, StringFormat='dd.MM.yyyy HH:mm'}"/>
                     </StackPanel>
                 </StackPanel>
