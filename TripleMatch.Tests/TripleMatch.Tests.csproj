@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -25,9 +25,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TripleMatch.ContractClient\TripleMatch.ContractClient.csproj" />
+    <ProjectReference Include="..\TripleMatch.Application\TripleMatch.Application.csproj" />
     <ProjectReference Include="..\TripleMatch.Domain\TripleMatch.Domain.csproj" />
     <ProjectReference Include="..\TripleMatch.Persistence\TripleMatch.Persistence.csproj" />
+    <ProjectReference Include="..\TripleMatch.Shered\TripleMatch.Shered.csproj" />
   </ItemGroup>
 
   <ItemGroup>
