@@ -40,7 +40,10 @@
                 <StackPanel>
                     <TextBlock Text="Лучший результат"/>
                     <TextBlock Text="{Binding BestUserHistoryVm.Score, StringFormat='Счёт: {0}'}"/>
-                    <TextBlock Text="{Binding BestUserHistoryVm.DateTime, StringFormat='Время: {0}'}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Время: "/>
+                        <TextBlock Text="{Binding BestUserHistoryVm.DateTime, StringFormat='dd.MM.yyyy HH:mm'}"/>
+                    </StackPanel>
                 </StackPanel>
             </Grid>
         </Border>
@@ -77,7 +80,7 @@
                             <DataGridTextColumn Header="Место" Binding="{Binding Rank}" Width="50"/>
                             <DataGridTextColumn Header="Имя" Binding="{Binding FullName}" Width="100"/>
                             <DataGridTextColumn Header="Счёт" Binding="{Binding Score}" Width="70"/>
-                            <DataGridTextColumn Header="Время" Binding="{Binding DateTime}" Width="130"/>
+                            <DataGridTextColumn Header="Время" Binding="{Binding DateTime, StringFormat='dd.MM.yyyy HH:mm'}" Width="130"/>
                         </DataGrid.Columns>
                         <DataGrid.RowStyle>
                             <Style TargetType="DataGridRow">
@@ -106,7 +109,7 @@
                         
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Счёт" Binding="{Binding Score}" Width="70"/>
-                            <DataGridTextColumn Header="Время" Binding="{Binding DateTime}" Width="200"/>
+                            <DataGridTextColumn Header="Время" Binding="{Binding DateTime, StringFormat='dd.MM.yyyy HH:mm'}" Width="200"/>
                         </DataGrid.Columns>
                         
                     </DataGrid>
